@@ -9,12 +9,25 @@
     <meta name="theme-color" content="#1152d4">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3589/3589030.png">
     <link rel="manifest" href="manifest.json">
-    <title>Attendance Pro</title>
+    <title>Pointage Chantier</title>
     
-    <!-- Script de secours pour diagnostiquer l'écran blanc -->
     <script>
-        window.onerror = function(msg, url, lineNo, columnNo, error) {
-            alert('Erreur détectée : ' + msg + '\nLigne: ' + lineNo + '\nURL: ' + url);
+        // Si après 5 secondes on a toujours un écran blanc, on affiche une aide
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                var root = document.getElementById('root');
+                if (root && root.innerHTML === "Chargement de l'application...") {
+                    root.innerHTML = '<div style="padding:40px;text-align:center;font-family:sans-serif;">' +
+                        '<h2>Un problème de chargement ?</h2>' +
+                        '<p>Essayez de vider le cache de votre navigateur ou de rafraîchir la page.</p>' +
+                        '<button onclick="window.location.reload(true)" style="padding:10px 20px;background:#1152d4;color:white;border:none;border-radius:10px;">Forcer le rafraîchissement</button>' +
+                        '</div>';
+                }
+            }, 5000);
+        });
+
+        window.onerror = function(msg, url, line) {
+            alert("Erreur technique : " + msg + "\nLigne : " + line);
             return false;
         };
     </script>
@@ -27,52 +40,31 @@
             darkMode: "class",
             theme: {
                 extend: {
-                    colors: {
-                        "primary": "#1152d4",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#101622",
-                    },
-                    fontFamily: {
-                        "sans": ["Inter", "sans-serif"]
-                    }
+                    colors: { "primary": "#1152d4", "background-light": "#f6f6f8", "background-dark": "#101622" },
+                    fontFamily: { "sans": ["Inter", "sans-serif"] }
                 },
             },
         }
     </script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-            overscroll-behavior-y: contain;
-        }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .material-symbols-outlined.fill {
-            font-variation-settings: 'FILL' 1;
-        }
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        canvas {
-            touch-action: none;
-        }
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
     </style>
-<script type="importmap">
+    <script type="importmap">
 {
   "imports": {
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/"
   }
 }
 </script>
 </head>
 <body class="bg-background-light dark:bg-background-dark text-[#111318]">
-    <div id="root"></div>
+    <div id="root" style="display:flex; align-items:center; justify-content:center; height:100vh; font-family:sans-serif; color:#666;">
+        Chargement de l'application...
+    </div>
 </body>
 </html>
