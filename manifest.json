@@ -1,0 +1,21 @@
+
+{
+  "short_name": "Émargement",
+  "name": "Émargement Équipe 1",
+  "description": "Application de suivi de présence sur chantier - Équipe 1",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3589/3589030.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#1152d4",
+  "background_color": "#f6f6f8",
+  "lang": "fr-FR",
+  "categories": ["business", "productivity"]
+}
