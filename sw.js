@@ -1,17 +1,17 @@
 
-const CACHE_NAME = 'emargement-v1.0.3'; // Doit être identique à la version dans App.tsx
-const urlsToCache = [
-  './',
-  './index.html',
-  './manifest.json'
-];
+const CACHE_NAME = 'emargement-v1.0.4';
 
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(urlsToCache);
+// Stratégie : Network First (on essaie le réseau, sinon le cache)
+// C'est plus sûr pour éviter les écrans blancs si un fichier manque au cache
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    fetch(event.request).catch(() => {
+      return caches.match(event.request);
     })
   );
+});
+
+self.addEventListener('install', event => {
   self.skipWaiting();
 });
 
@@ -25,14 +25,6 @@ self.addEventListener('activate', event => {
           }
         })
       );
-    })
-  );
-});
-
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
     })
   );
 });
