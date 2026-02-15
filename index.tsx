@@ -9,9 +9,12 @@ if (!rootElement) {
 }
 
 // Service Worker Registration for PWA support
+// Utilisation d'un chemin relatif './sw.js' au lieu de '/sw.js' pour GitHub Pages
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(err => {
+    navigator.serviceWorker.register('./sw.js').then(reg => {
+      console.log('SW registered!', reg);
+    }).catch(err => {
       console.log('SW registration failed: ', err);
     });
   });
