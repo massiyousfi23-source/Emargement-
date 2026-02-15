@@ -1,11 +1,9 @@
 
-const CACHE_NAME = 'emargement-v2';
+const CACHE_NAME = 'emargement-v1.0.3'; // Doit être identique à la version dans App.tsx
 const urlsToCache = [
   './',
   './index.html',
-  './manifest.json',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
-  'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200'
+  './manifest.json'
 ];
 
 self.addEventListener('install', event => {
@@ -34,19 +32,7 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(response => {
-      // Stratégie : Cache First, then network update
-      return response || fetch(event.request).then(fetchResponse => {
-        return caches.open(CACHE_NAME).then(cache => {
-          // On ne met en cache que les ressources sûres
-          if (event.request.url.startsWith('http')) {
-            cache.put(event.request, fetchResponse.clone());
-          }
-          return fetchResponse;
-        });
-      });
-    }).catch(() => {
-      // Fallback si tout échoue (hors ligne total sans cache)
-      return caches.match('./index.html');
+      return response || fetch(event.request);
     })
   );
 });
