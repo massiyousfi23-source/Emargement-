@@ -3,26 +3,26 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
-const rootElement = document.getElementById('root');
-if (!rootElement) {
-  throw new Error("Could not find root element to mount to");
+try {
+  const rootElement = document.getElementById('root');
+  if (rootElement) {
+    const root = ReactDOM.createRoot(rootElement);
+    root.render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    );
+  }
+} catch (error) {
+  console.error("Erreur de rendu:", error);
+  alert("L'application n'a pas pu démarrer : " + error);
 }
 
-// Service Worker Registration for PWA support
-// Utilisation d'un chemin relatif './sw.js' au lieu de '/sw.js' pour GitHub Pages
+// Désactivation temporaire du Service Worker pour s'assurer que le réseau est utilisé en priorité
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').then(reg => {
-      console.log('SW registered!', reg);
-    }).catch(err => {
-      console.log('SW registration failed: ', err);
-    });
+  navigator.serviceWorker.getRegistrations().then(registrations => {
+    for (let registration of registrations) {
+      registration.unregister();
+    }
   });
 }
-
-const root = ReactDOM.createRoot(rootElement);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
