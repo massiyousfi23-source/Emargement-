@@ -1,7 +1,11 @@
 
 import React from 'react';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  onShowLink: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onShowLink }) => {
   const handleShare = async () => {
     if (navigator.share) {
       try {
@@ -14,7 +18,6 @@ const Header: React.FC = () => {
         console.log('Erreur de partage:', err);
       }
     } else {
-      // Fallback : Copie dans le presse-papier
       navigator.clipboard.writeText(window.location.href);
       alert('Lien copié dans le presse-papier !');
     }
@@ -23,15 +26,19 @@ const Header: React.FC = () => {
   return (
     <header className="sticky top-0 z-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 px-4 py-4 flex items-center justify-between">
       <div className="flex items-center gap-3">
-        <button className="p-2 hover:bg-primary/5 rounded-lg transition-colors active:scale-95">
-          <span className="material-symbols-outlined text-[#111318] dark:text-white">arrow_back</span>
+        <button 
+          onClick={onShowLink}
+          className="p-2 bg-primary/10 text-primary rounded-lg transition-colors active:scale-95 flex items-center justify-center"
+          title="Afficher le lien et QR Code"
+        >
+          <span className="material-symbols-outlined text-[20px]">qr_code_2</span>
         </button>
         <h1 className="text-xl font-bold tracking-tight dark:text-white">Pointage</h1>
       </div>
       <div className="flex items-center gap-1">
         <button 
           onClick={handleShare}
-          className="p-2 text-primary hover:bg-primary/10 rounded-lg transition-all active:scale-90"
+          className="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all active:scale-90"
           title="Partager le lien"
         >
           <span className="material-symbols-outlined">share</span>
